@@ -13,8 +13,9 @@ public class MainCliente {
 
     private static JFrame frame = null;
 
-    public MainCliente() {
+    public MainCliente(JFrame loginFrame) {
         registerButton.addActionListener(e -> {
+            frame = loginFrame;
             JFrame registroFrame = new JFrame("REGISTRO");
             registroFrame.setContentPane(new Register(registroFrame).panel_main);
             registroFrame.pack();
@@ -23,11 +24,22 @@ public class MainCliente {
             registroFrame.setLocationRelativeTo(null);
             registroFrame.setVisible(true);
         });
+        loginButton.addActionListener(e -> {
+            if (!usuarioText.getText().equals("") && !contraText.getText().equals("")) {
+                JFrame MenuFrame = new JFrame("MENU");
+                MenuFrame.setContentPane(new MenuCliente(MenuFrame).panel_main);
+                MenuFrame.pack();
+                MenuFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.setVisible(false);
+                MenuFrame.setLocationRelativeTo(null);
+                MenuFrame.setVisible(true);
+            }
+        });
     }
 
     public static void main(String[] args) {
-        frame = new JFrame("CLIENTE");
-        frame.setContentPane(new MainCliente().panel_main);
+        frame = new JFrame("LOGIN");
+        frame.setContentPane(new MainCliente(frame).panel_main);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setLocationRelativeTo(null);

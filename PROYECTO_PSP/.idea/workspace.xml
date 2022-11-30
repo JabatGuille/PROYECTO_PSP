@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="161fe431-279c-448e-af8c-557403ad8e5f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Cliente/MainCliente.form" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Cliente/MainCliente.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Cliente/Register.form" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Cliente/Register.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Servidor/MainServidor.form" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Servidor/MainServidor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Cliente/MenuCliente.form" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Cliente/MenuCliente.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Cliente/MenuTransferencia.form" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Cliente/MenuTransferencia.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Cliente/VistaSaldo.form" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Cliente/VistaSaldo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Cliente/MainCliente.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Cliente/MainCliente.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Cliente/Register.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Cliente/Register.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

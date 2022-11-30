@@ -14,9 +14,13 @@ public class Register {
     public JPanel panel_main;
 
     public Register(JFrame registroFrame) {
+        SpinnerModel modeltau = new SpinnerNumberModel(0, 0, 100, 1);
+        EdadSpinner.setModel(modeltau);
+        ((JSpinner.NumberEditor) EdadSpinner.getEditor()).getFormat().setMaximumFractionDigits(3);
         salirButton.addActionListener(e -> {
+
             JFrame loginFrame = new JFrame("LOGIN");
-            loginFrame.setContentPane(new MainCliente().panel_main);
+            loginFrame.setContentPane(new MainCliente(loginFrame).panel_main);
             loginFrame.pack();
             loginFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             loginFrame.setLocationRelativeTo(null);
