@@ -5,6 +5,8 @@ import Clases.Transaccion;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -17,6 +19,7 @@ public class MenuTransferencia {
     private JButton salirButton;
     private JTable tablaTransferencias;
     public JPanel panel_main;
+    private JButton crearCuentaButton;
     JFrame frame = null;
 
     public MenuTransferencia(JFrame menuFrame) {
@@ -31,6 +34,19 @@ public class MenuTransferencia {
             frame.setVisible(false);
             MenuFrame.setLocationRelativeTo(null);
             MenuFrame.setVisible(true);
+        });
+        crearCuentaButton.addActionListener(e -> {
+            try {
+                Socket cliente = new Socket("localhost",5555);
+                ObjectOutputStream outObjeto = new ObjectOutputStream(cliente.getOutputStream());
+                ObjectInputStream inObjeto = new ObjectInputStream(cliente.getInputStream());
+                outObjeto.writeObject("CREARCUENTA");
+                Singleton singleton = Singleton.getInstance();
+                outObjeto.writeObject(singleton.DNI);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+
         });
     }
 

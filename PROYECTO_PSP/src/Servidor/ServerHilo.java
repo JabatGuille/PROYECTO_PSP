@@ -40,6 +40,11 @@ public class ServerHilo extends Thread {
                     outObjeto.writeObject(Conexiones.recuperarCuentas(DNI));
                     break;
                 }
+                case "CREARCUENTA": {
+                    String DNI = (String) inObjeto.readObject();
+                    Conexiones.crearCuenta(DNI);
+                    break;
+                }
                 case "VERTRASFERENCIAS": {
                     String DNI = (String) inObjeto.readObject();
                     outObjeto.writeObject(Conexiones.recuperarTransacciones(DNI));

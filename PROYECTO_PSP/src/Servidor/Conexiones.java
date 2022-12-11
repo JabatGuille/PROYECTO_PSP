@@ -155,4 +155,19 @@ public class Conexiones {
             throw new RuntimeException(e);
         }
     }
+
+    public static void crearCuenta(String DNI) {
+        try {
+            Connection conexion = DriverManager.getConnection(conexion_string, usuario, contraseña);
+            String sql = "insert into cuentabancaria(dinero,DNI_cliente) values (?,?)";
+            PreparedStatement statement = conexion.prepareStatement(sql);
+            statement.setDouble(1, 0);
+            statement.setString(2, DNI);
+            statement.executeUpdate();
+            conexion.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
 }
