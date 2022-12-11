@@ -12,7 +12,7 @@ public class Encryption {
         final Cipher aes = obtieneCipher(true);
         final byte[] cifrado = aes.doFinal(bytes);
 
-        return  Base64.getEncoder().encodeToString(cifrado);
+        return Base64.getEncoder().encodeToString(cifrado);
     }
 
     private static Cipher obtieneCipher(boolean paraCifrar) throws Exception {
@@ -28,14 +28,5 @@ public class Encryption {
             aes.init(Cipher.DECRYPT_MODE, key);
         }
         return aes;
-    }
-
-    public static void main(String[] args) {
-        try {
-            String a = cifra("admin");
-            System.out.println(a);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }
 }

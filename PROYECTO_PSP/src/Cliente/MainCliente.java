@@ -1,5 +1,7 @@
 package Cliente;
 
+import Clases.Singleton;
+
 import javax.swing.*;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -48,6 +50,8 @@ public class MainCliente {
                         outObjeto.writeObject(Encryption.cifra(contraText.getText()));
                         Boolean bol = (Boolean) inObjeto.readObject();
                         cliente.close();
+                        Singleton singleton = Singleton.getInstance();
+                        singleton.DNI = DNIText.getText();
                         if (bol) {
                             JFrame MenuFrame = new JFrame("MENU");
                             MenuFrame.setContentPane(new MenuCliente(MenuFrame).panel_main);

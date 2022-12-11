@@ -8,16 +8,17 @@ contraseña varchar(250)
 );
 
 Create table CuentaBancaria(
-IBAN varchar(50) primary key,
+IBAN integer primary key AUTO_INCREMENT,
 dinero double,
 DNI_cliente varchar(50),
-foreign key (DNI_cliente) references cliente(DNI)
+foreign key (DNI_cliente) references cliente(DNI) on delete cascade
 );
 
 Create table Transferencia(
-IBAN_ORIGEN varchar(50),
-IBAN_DESTINO varchar(50),
+IBAN_ORIGEN integer,
+IBAN_DESTINO integer,
 dinero double,
-foreign key (IBAN_ORIGEN) references cuentabancaria(IBAN),
-foreign key (IBAN_DESTINO) references cuentabancaria(IBAN)
+fecha varchar(50),
+foreign key (IBAN_ORIGEN) references cuentabancaria(IBAN) on delete cascade,
+foreign key (IBAN_DESTINO) references cuentabancaria(IBAN) on delete cascade
 );

@@ -1,6 +1,7 @@
 package Servidor;
 
 import Clases.Cliente;
+import Clases.Transaccion;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -41,10 +42,12 @@ public class ServerHilo extends Thread {
                 }
                 case "VERTRASFERENCIAS": {
                     String DNI = (String) inObjeto.readObject();
+                    outObjeto.writeObject(Conexiones.recuperarTransacciones(DNI));
                     break;
                 }
                 case "HACER_TRANSFERENCIA": {
-                    
+                    Transaccion transaccion = (Transaccion) inObjeto.readObject();
+                    Conexiones.hacerTransferencia(transaccion);
                     break;
                 }
             }

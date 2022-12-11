@@ -5,22 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="161fe431-279c-448e-af8c-557403ad8e5f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/mysql_connector_java_8_0_30.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Clases/Cliente.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Clases/Cuenta.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Cliente/Encryption.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Servidor/Conexiones.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Servidor/ServerHilo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Servidor/Servidor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Clases/Singleton.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Clases/Transaccion.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PROYECTO_PSP.iml" beforeDir="false" afterPath="$PROJECT_DIR$/PROYECTO_PSP.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Cliente/MainCliente.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/Cliente/MainCliente.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Clases/Cuenta.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Clases/Cuenta.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Cliente/Encryption.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Cliente/Encryption.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Cliente/MainCliente.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Cliente/MainCliente.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Cliente/Register.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/Cliente/Register.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Cliente/Register.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Cliente/Register.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Servidor/MainServidor.form" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Servidor/MainServidor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Cliente/MenuTransferencia.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Cliente/MenuTransferencia.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Cliente/VistaSaldo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Cliente/VistaSaldo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Servidor/Conexiones.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Servidor/Conexiones.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Servidor/ServerHilo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Servidor/ServerHilo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sql.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../sql.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,8 +90,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.MainCliente" />
         <item itemvalue="Application.Servidor" />
+        <item itemvalue="Application.MainCliente" />
         <item itemvalue="Application.Encryption" />
       </list>
     </recent_temporary>
@@ -129,6 +124,10 @@
         <breakpoint enabled="true" type="java-exception">
           <properties class="java.io.NotSerializableException" package="java.io" />
           <option name="timeStamp" value="3" />
+        </breakpoint>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.sql.SQLException" package="java.sql" />
+          <option name="timeStamp" value="10" />
         </breakpoint>
       </breakpoints>
     </breakpoint-manager>
