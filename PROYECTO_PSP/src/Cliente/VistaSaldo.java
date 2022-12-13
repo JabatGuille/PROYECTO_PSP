@@ -92,11 +92,12 @@ public class VistaSaldo {
         hacerTransferenciaButton.addActionListener(e -> {
             if (cuentaHashMap.containsKey(Integer.parseInt(OrigenText.getText())) && !DestinoText.getText().equals("") && !spinnerCantidad.getValue().equals(0)) {
                 try {
+                    Singleton singleton = Singleton.getInstance();
                     Socket cliente = new Socket("localhost", 5555);
                     ObjectOutputStream outObjeto = new ObjectOutputStream(cliente.getOutputStream());
                     ObjectInputStream inObjeto = new ObjectInputStream(cliente.getInputStream());
                     outObjeto.writeObject("HACER_TRANSFERENCIA");
-                    outObjeto.writeObject(new Transaccion(Integer.parseInt(OrigenText.getText()), Integer.parseInt(DestinoText.getText()), Double.parseDouble(spinnerCantidad.getValue().toString())));
+                    outObjeto.writeObject(new Transaccion(singleton.DNI, Integer.parseInt(OrigenText.getText()), Integer.parseInt(DestinoText.getText()), Double.parseDouble(spinnerCantidad.getValue().toString())));
                     JOptionPane.showMessageDialog(null, "Intentando hacer transferencia");
                     setTablaCuentas();
 

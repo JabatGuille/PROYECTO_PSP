@@ -15,10 +15,12 @@ foreign key (DNI_cliente) references cliente(DNI) on delete cascade
 );
 
 Create table Transferencia(
+DNI_cliente char(50),
 IBAN_ORIGEN integer,
 IBAN_DESTINO integer,
 dinero double,
 fecha varchar(50),
+foreign key (DNI_cliente) references cliente(DNI) on delete cascade
 foreign key (IBAN_ORIGEN) references cuentabancaria(IBAN) on delete cascade,
 foreign key (IBAN_DESTINO) references cuentabancaria(IBAN) on delete cascade
 );

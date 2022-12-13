@@ -83,13 +83,13 @@ public class Conexiones {
         ArrayList<Transaccion> transaccions = new ArrayList<>();
         try {
             Connection conexion = DriverManager.getConnection(conexion_string, usuario, contraseña);
-            String sql = "select * from transferencia join cuentabancaria on DNI_cliente = ?";
+            String sql = "select * from transferencia where DNI_cliente = ?";
             PreparedStatement statement = conexion.prepareStatement(sql);
             statement.setString(1, DNI);
             statement.execute();
             ResultSet resultSet = statement.getResultSet();
             while (resultSet.next()) {
-                transaccions.add(new Transaccion(resultSet.getInt("IBAN_ORIGEN"), resultSet.getInt("IBAN_DESTINO"), resultSet.getDouble("dinero")));
+                transaccions.add(new Transaccion(DNI, resultSet.getInt("IBAN_ORIGEN"), resultSet.getInt("IBAN_DESTINO"), resultSet.getDouble("dinero")));
             }
             conexion.close();
         } catch (SQLException e) {
@@ -122,11 +122,12 @@ public class Conexiones {
                     IBAN = resultSet.getInt("IBAN");
                 }
                 if (IBAN != 0) {
-                    sql = "insert into transferencia(IBAN_ORIGEN,IBAN_DESTINO,dinero) values (?,?,?)";
+                    sql = "insert into transferencia(DNI_cliente,IBAN_ORIGEN,IBAN_DESTINO,dinero) values (?,?,?,?)";
                     statement = conexion.prepareStatement(sql);
-                    statement.setInt(1, transaccion.getIBAN_ORIGEN());
-                    statement.setInt(2, transaccion.getIBAN_DESTINO());
-                    statement.setDouble(3, transaccion.getPrecio());
+                    statement.setString(1, transaccion.getDNI_cliente());
+                    statement.setInt(2, transaccion.getIBAN_ORIGEN());
+                    statement.setInt(3, transaccion.getIBAN_DESTINO());
+                    statement.setDouble(4, transaccion.getPrecio());
                     statement.execute();
 
                     sql = "UPDATE cuentabancaria SET dinero = ? WHERE IBAN = ?";
