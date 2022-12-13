@@ -1,11 +1,17 @@
 package Cliente;
 
 import Clases.Cliente;
+import Clases.Encryption;
 
 import javax.swing.*;
-import java.io.ObjectInputStream;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -19,6 +25,8 @@ public class Register {
     private JButton salirButton;
     private JPasswordField ContraTexto;
     public JPanel panel_main;
+    private JCheckBox politicasCheckBox;
+    private JButton politicasDePrivacidadButton;
 
     public Register(JFrame registroFrame) {
         SpinnerModel modeltau = new SpinnerNumberModel(0, 0, 100, 1);
@@ -54,22 +62,45 @@ public class Register {
                     !EdadSpinner.getValue().equals(0) &&
                     !EmailTexto.getText().equals("") &&
                     !ContraTexto.getText().equals("")) {
-                try {
-                    Cliente cliente = new Cliente(DNITexto.getText(), NombreTexto.getText(), ApellidoTexto.getText(), Integer.parseInt(EdadSpinner.getValue().toString()), EmailTexto.getText(), Encryption.cifra(ContraTexto.getText()));
-                    Socket clienteSocket = new Socket("localhost", 5555);
-                    ObjectOutputStream outObjeto = new ObjectOutputStream(clienteSocket.getOutputStream());
-                    outObjeto.writeObject("REGISTRO");
-                    outObjeto.writeObject(cliente);
-                    clienteSocket.close();
-                    JFrame loginFrame = new JFrame("LOGIN");
-                    loginFrame.setContentPane(new MainCliente(loginFrame).panel_main);
-                    loginFrame.pack();
-                    loginFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                    loginFrame.setLocationRelativeTo(null);
-                    registroFrame.setVisible(false);
-                    loginFrame.setVisible(true);
-                } catch (Exception ex) {
-                    throw new RuntimeException(ex);
+                if (politicasCheckBox.isSelected()) {
+
+                    try {
+                        Cliente cliente = new Cliente(DNITexto.getText(), NombreTexto.getText(), ApellidoTexto.getText(), Integer.parseInt(EdadSpinner.getValue().toString()), EmailTexto.getText(), Encryption.cifra(ContraTexto.getText()));
+                        Socket clienteSocket = new Socket("localhost", 5555);
+                        ObjectOutputStream outObjeto = new ObjectOutputStream(clienteSocket.getOutputStream());
+                        outObjeto.writeObject("REGISTRO");
+                        outObjeto.writeObject(cliente);
+                        clienteSocket.close();
+                        JFrame loginFrame = new JFrame("LOGIN");
+                        loginFrame.setContentPane(new MainCliente(loginFrame).panel_main);
+                        loginFrame.pack();
+                        loginFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                        loginFrame.setLocationRelativeTo(null);
+                        registroFrame.setVisible(false);
+                        loginFrame.setVisible(true);
+                    } catch (Exception ex) {
+                        throw new RuntimeException(ex);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Debe aceptar las politicas de privacidad", "Error Privacidad", JOptionPane.WARNING_MESSAGE);
+
+                }
+            }
+        });
+        politicasDePrivacidadButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (Desktop.isDesktopSupported()) {
+                    Desktop desktop = Desktop.getDesktop();
+                    if (desktop.isSupported(Desktop.Action.BROWSE)){
+                        try {
+                            desktop.browse(new URI("https://www.egibide.org/privacidad/#:~:text=EGIBIDE%20facilita%20a%20las%20personas,la%20limitaci%C3%B3n%20de%20su%20tratamiento."));
+                        } catch (IOException ex) {
+                            JOptionPane.showMessageDialog(null, "Error inesperado", "Error Inesperado", JOptionPane.WARNING_MESSAGE);
+                        } catch (URISyntaxException ex) {
+                            JOptionPane.showMessageDialog(null, "URL no aceptada", "Error Privacidad", JOptionPane.WARNING_MESSAGE);
+                        }
+                    }
                 }
             }
         });

@@ -1,5 +1,6 @@
 package Cliente;
 
+import Clases.Encryption;
 import Clases.Singleton;
 
 import javax.swing.*;
