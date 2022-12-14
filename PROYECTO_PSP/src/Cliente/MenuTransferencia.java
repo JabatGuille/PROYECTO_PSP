@@ -1,12 +1,12 @@
 package Cliente;
 
+import Clases.Encryption;
 import Clases.Singleton;
 import Clases.Transaccion;
 
+import javax.crypto.SecretKey;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -37,13 +37,17 @@ public class MenuTransferencia {
         });
         crearCuentaButton.addActionListener(e -> {
             try {
-                Socket cliente = new Socket("localhost",5555);
+                Socket cliente = new Socket("localhost", 5555);
                 ObjectOutputStream outObjeto = new ObjectOutputStream(cliente.getOutputStream());
                 ObjectInputStream inObjeto = new ObjectInputStream(cliente.getInputStream());
                 outObjeto.writeObject("CREARCUENTA");
                 Singleton singleton = Singleton.getInstance();
-                outObjeto.writeObject(singleton.DNI);
+                singleton.secretKey = (SecretKey) inObjeto.readObject();
+                Encryption.encriparDNI(outObjeto);
+                JOptionPane.showMessageDialog(null, "Cuenta creada");
             } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            } catch (ClassNotFoundException ex) {
                 throw new RuntimeException(ex);
             }
 
@@ -61,8 +65,10 @@ public class MenuTransferencia {
             ObjectInputStream inObjeto = new ObjectInputStream(cliente.getInputStream());
             outObjeto.writeObject("VERTRASFERENCIAS");
             Singleton singleton = Singleton.getInstance();
-            outObjeto.writeObject(singleton.DNI);
-            ArrayList<Transaccion> transaccions = (ArrayList<Transaccion>) inObjeto.readObject();
+            singleton.secretKey = (SecretKey) inObjeto.readObject();
+            Encryption.encriparDNI(outObjeto);
+            int totalTransacciones = (int) inObjeto.readObject();
+            ArrayList<Transaccion> transaccions = Encryption.desEncriparVerTransferencia(totalTransacciones, inObjeto);
             System.out.println(transaccions.size());
             for (int i = 0; i < transaccions.size(); i++) {
                 model.addRow(new Object[]{transaccions.get(i).getIBAN_ORIGEN(), transaccions.get(i).getIBAN_DESTINO(), transaccions.get(i).getPrecio()});

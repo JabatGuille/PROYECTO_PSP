@@ -1,9 +1,11 @@
 package Cliente;
 
 import Clases.Cuenta;
+import Clases.Encryption;
 import Clases.Singleton;
 import Clases.Transaccion;
 
+import javax.crypto.SecretKey;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ComponentAdapter;
@@ -54,9 +56,10 @@ public class VistaSaldo {
             ObjectInputStream inObjeto = new ObjectInputStream(cliente.getInputStream());
             outObjeto.writeObject("LISTARCUENTAS");
             Singleton singleton = Singleton.getInstance();
-            outObjeto.writeObject(singleton.DNI);
-            ArrayList<Cuenta> cuentas = (ArrayList<Cuenta>) inObjeto.readObject();
-            System.out.println(cuentas.size());
+            singleton.secretKey = (SecretKey) inObjeto.readObject();
+            Encryption.encriparDNI(outObjeto);
+            int totalCuentas = (int) inObjeto.readObject();
+            ArrayList<Cuenta> cuentas = Encryption.desEncriparListaCuentas(totalCuentas,inObjeto);
             double total = 0;
             for (int i = 0; i < cuentas.size(); i++) {
                 model.addRow(new Object[]{cuentas.get(i).getIBAN(), cuentas.get(i).getDinero()});
@@ -97,11 +100,14 @@ public class VistaSaldo {
                     ObjectOutputStream outObjeto = new ObjectOutputStream(cliente.getOutputStream());
                     ObjectInputStream inObjeto = new ObjectInputStream(cliente.getInputStream());
                     outObjeto.writeObject("HACER_TRANSFERENCIA");
-                    outObjeto.writeObject(new Transaccion(singleton.DNI, Integer.parseInt(OrigenText.getText()), Integer.parseInt(DestinoText.getText()), Double.parseDouble(spinnerCantidad.getValue().toString())));
+                    singleton.secretKey = (SecretKey) inObjeto.readObject();
+                    Encryption.encriparHacerTransferencia(new Transaccion(singleton.DNI, Integer.parseInt(OrigenText.getText()), Integer.parseInt(DestinoText.getText()), Double.parseDouble(spinnerCantidad.getValue().toString())), outObjeto);
                     JOptionPane.showMessageDialog(null, "Intentando hacer transferencia");
                     setTablaCuentas();
 
                 } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                } catch (ClassNotFoundException ex) {
                     throw new RuntimeException(ex);
                 }
             } else {

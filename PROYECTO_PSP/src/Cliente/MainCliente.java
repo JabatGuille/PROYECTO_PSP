@@ -3,6 +3,7 @@ package Cliente;
 import Clases.Encryption;
 import Clases.Singleton;
 
+import javax.crypto.SecretKey;
 import javax.swing.*;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -47,11 +48,11 @@ public class MainCliente {
                         ObjectOutputStream outObjeto = new ObjectOutputStream(cliente.getOutputStream());
                         ObjectInputStream inObjeto = new ObjectInputStream(cliente.getInputStream());
                         outObjeto.writeObject("LOGIN");
-                        outObjeto.writeObject(DNIText.getText());
-                        outObjeto.writeObject(Encryption.cifra(contraText.getText()));
+                        Singleton singleton = Singleton.getInstance();
+                        singleton.secretKey = (SecretKey) inObjeto.readObject();
+                        Encryption.encriptarLogin(DNIText.getText(), Encryption.cifra(contraText.getText()), outObjeto);
                         Boolean bol = (Boolean) inObjeto.readObject();
                         cliente.close();
-                        Singleton singleton = Singleton.getInstance();
                         singleton.DNI = DNIText.getText();
                         if (bol) {
                             JFrame MenuFrame = new JFrame("MENU");
@@ -61,7 +62,7 @@ public class MainCliente {
                             frame.setVisible(false);
                             MenuFrame.setLocationRelativeTo(null);
                             MenuFrame.setVisible(true);
-                        }else {
+                        } else {
                             JOptionPane.showMessageDialog(null, "DNI o contraseña incorrectos", "Error Login", JOptionPane.WARNING_MESSAGE);
 
                         }

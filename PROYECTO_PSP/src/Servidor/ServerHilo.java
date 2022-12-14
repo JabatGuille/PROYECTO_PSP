@@ -1,12 +1,15 @@
 package Servidor;
 
-import Clases.Cliente;
+import Clases.Cuenta;
+import Clases.Encryption;
+import Clases.Singleton;
 import Clases.Transaccion;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class ServerHilo extends Thread {
     Socket cliente;
@@ -19,45 +22,75 @@ public class ServerHilo extends Thread {
     public void run() {
         super.run();
         try {
+            Encryption.secretKey();
+            Singleton singleton = Singleton.getInstance();
             ObjectOutputStream outObjeto = new ObjectOutputStream(cliente.getOutputStream());
             ObjectInputStream inObjeto = new ObjectInputStream(cliente.getInputStream());
             String peticion = (String) inObjeto.readObject();
             switch (peticion) {
                 case "LOGIN": {
                     System.out.println("LOGIN");
-                    String DNI = (String) inObjeto.readObject();
-                    String contraseña = (String) inObjeto.readObject();
-                    outObjeto.writeObject(Conexiones.login(DNI, contraseña));
+                    outObjeto.writeObject(singleton.secretKey);
+                    byte[] DNI = (byte[]) inObjeto.readObject();
+                    byte[] contraseña = (byte[]) inObjeto.readObject();
+                    Encryption.desEncriparLogin(DNI, contraseña, outObjeto);
                     break;
                 }
                 case "REGISTRO": {
-                    Cliente cliente = (Cliente) inObjeto.readObject();
-                    Conexiones.registro(cliente);
+                    byte[] mensajeFirmado = Encryption.encriptarRegistroCliente();
+                    if (mensajeFirmado != null) {
+                        outObjeto.writeObject(singleton.clavePublica);
+                        outObjeto.writeObject(mensajeFirmado);
+                        boolean comprobacion = (boolean) inObjeto.readObject();
+                        if (comprobacion) {
+                            outObjeto.writeObject(singleton.secretKey);
+                            byte[] DNI = (byte[]) inObjeto.readObject();
+                            byte[] nombre = (byte[]) inObjeto.readObject();
+                            byte[] apellido = (byte[]) inObjeto.readObject();
+                            byte[] edad = (byte[]) inObjeto.readObject();
+                            byte[] email = (byte[]) inObjeto.readObject();
+                            byte[] contraseña = (byte[]) inObjeto.readObject();
+                            Encryption.desEncriptarCliente(DNI, nombre, apellido, edad, email, contraseña);
+                        }
+                    } else {
+                        System.out.println("Error con la firma");
+                    }
                     break;
                 }
                 case "LISTARCUENTAS": {
-                    String DNI = (String) inObjeto.readObject();
-                    outObjeto.writeObject(Conexiones.recuperarCuentas(DNI));
+                    outObjeto.writeObject(singleton.secretKey);
+                    byte[] DNI = (byte[]) inObjeto.readObject();
+                    ArrayList<Cuenta> cuentas = Conexiones.recuperarCuentas(Encryption.desEncriptarDNI(DNI));
+                    outObjeto.writeObject(cuentas.size());
+                    Encryption.encriparListaCuentas(cuentas, outObjeto);
                     break;
                 }
                 case "CREARCUENTA": {
-                    String DNI = (String) inObjeto.readObject();
-                    Conexiones.crearCuenta(DNI);
+                    outObjeto.writeObject(singleton.secretKey);
+                    byte[] DNI = (byte[]) inObjeto.readObject();
+                    Conexiones.crearCuenta(Encryption.desEncriptarDNI(DNI));
                     break;
                 }
                 case "VERTRASFERENCIAS": {
-                    String DNI = (String) inObjeto.readObject();
-                    outObjeto.writeObject(Conexiones.recuperarTransacciones(DNI));
+                    outObjeto.writeObject(singleton.secretKey);
+                    byte[] DNI = (byte[]) inObjeto.readObject();
+                    ArrayList<Transaccion> transaccions = Conexiones.recuperarTransacciones(Encryption.desEncriptarDNI(DNI));
+                    outObjeto.writeObject(transaccions.size());
+                    Encryption.encriparVerTransferencias(transaccions,outObjeto);
                     break;
                 }
                 case "HACER_TRANSFERENCIA": {
-                    Transaccion transaccion = (Transaccion) inObjeto.readObject();
-                    Conexiones.hacerTransferencia(transaccion);
+                    outObjeto.writeObject(singleton.secretKey);
+                    byte[] DNI = (byte[]) inObjeto.readObject();
+                    byte[] IBAN_ORIGEN = (byte[]) inObjeto.readObject();
+                    byte[] IBAN_DESTINO = (byte[]) inObjeto.readObject();
+                    byte[] precio = (byte[]) inObjeto.readObject();
+                    Encryption.desEncriparHacerTransferencia(DNI, IBAN_ORIGEN, IBAN_DESTINO, precio);
                     break;
                 }
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println("Error hilo");
         } catch (ClassNotFoundException e) {
             System.out.println("Error tipeo de datos");
         }

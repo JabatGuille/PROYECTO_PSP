@@ -73,4 +73,16 @@ public class Cliente implements Serializable {
         this.contraseña = contraseña;
     }
 
+    @Override
+    public String toString() {
+        return "Cliente{" +
+                "DNI='" + DNI + '\'' +
+                ", Nombre='" + Nombre + '\'' +
+                ", Apellido='" + Apellido + '\'' +
+                ", Edad=" + Edad +
+                ", Email='" + Email + '\'' +
+                ", contraseña='" + contraseña + '\'' +
+                ", cuentas=" + cuentas +
+                '}';
+    }
 }

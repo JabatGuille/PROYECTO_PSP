@@ -2,16 +2,18 @@ package Cliente;
 
 import Clases.Cliente;
 import Clases.Encryption;
+import Clases.Singleton;
 
+import javax.crypto.SecretKey;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.security.PublicKey;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -68,16 +70,29 @@ public class Register {
                         Cliente cliente = new Cliente(DNITexto.getText(), NombreTexto.getText(), ApellidoTexto.getText(), Integer.parseInt(EdadSpinner.getValue().toString()), EmailTexto.getText(), Encryption.cifra(ContraTexto.getText()));
                         Socket clienteSocket = new Socket("localhost", 5555);
                         ObjectOutputStream outObjeto = new ObjectOutputStream(clienteSocket.getOutputStream());
+                        ObjectInputStream inObjeto = new ObjectInputStream(clienteSocket.getInputStream());
                         outObjeto.writeObject("REGISTRO");
-                        outObjeto.writeObject(cliente);
-                        clienteSocket.close();
-                        JFrame loginFrame = new JFrame("LOGIN");
-                        loginFrame.setContentPane(new MainCliente(loginFrame).panel_main);
-                        loginFrame.pack();
-                        loginFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                        loginFrame.setLocationRelativeTo(null);
-                        registroFrame.setVisible(false);
-                        loginFrame.setVisible(true);
+                        Singleton singleton = Singleton.getInstance();
+                        singleton.clavePublica = (PublicKey) inObjeto.readObject();
+                        byte[] mensajeFirmado = (byte[]) inObjeto.readObject();
+                        boolean comprobacion = Encryption.verificarRegistroCliente(mensajeFirmado);
+                        if (comprobacion) {
+                            outObjeto.writeObject(true);
+                            singleton.secretKey = (SecretKey) inObjeto.readObject();
+                            Encryption.encriptarCliente(cliente,outObjeto);
+                            clienteSocket.close();
+                            JOptionPane.showMessageDialog(null, "Usted a firmado las politicas de privacidad");
+                            JFrame loginFrame = new JFrame("LOGIN");
+                            loginFrame.setContentPane(new MainCliente(loginFrame).panel_main);
+                            loginFrame.pack();
+                            loginFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                            loginFrame.setLocationRelativeTo(null);
+                            registroFrame.setVisible(false);
+                            loginFrame.setVisible(true);
+                        } else {
+                            clienteSocket.close();
+                            JOptionPane.showMessageDialog(null, "La firma no es correcta", "Error Inesperado", JOptionPane.WARNING_MESSAGE);
+                        }
                     } catch (Exception ex) {
                         throw new RuntimeException(ex);
                     }
@@ -87,19 +102,17 @@ public class Register {
                 }
             }
         });
-        politicasDePrivacidadButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (Desktop.isDesktopSupported()) {
-                    Desktop desktop = Desktop.getDesktop();
-                    if (desktop.isSupported(Desktop.Action.BROWSE)){
-                        try {
-                            desktop.browse(new URI("https://www.egibide.org/privacidad/#:~:text=EGIBIDE%20facilita%20a%20las%20personas,la%20limitaci%C3%B3n%20de%20su%20tratamiento."));
-                        } catch (IOException ex) {
-                            JOptionPane.showMessageDialog(null, "Error inesperado", "Error Inesperado", JOptionPane.WARNING_MESSAGE);
-                        } catch (URISyntaxException ex) {
-                            JOptionPane.showMessageDialog(null, "URL no aceptada", "Error Privacidad", JOptionPane.WARNING_MESSAGE);
-                        }
+        politicasDePrivacidadButton.addActionListener(e -> {
+            Singleton singleton = Singleton.getInstance();
+            if (Desktop.isDesktopSupported()) {
+                Desktop desktop = Desktop.getDesktop();
+                if (desktop.isSupported(Desktop.Action.BROWSE)) {
+                    try {
+                        desktop.browse(new URI(singleton.url));
+                    } catch (IOException ex) {
+                        JOptionPane.showMessageDialog(null, "Error inesperado", "Error Inesperado", JOptionPane.WARNING_MESSAGE);
+                    } catch (URISyntaxException ex) {
+                        JOptionPane.showMessageDialog(null, "URL no aceptada", "Error Privacidad", JOptionPane.WARNING_MESSAGE);
                     }
                 }
             }
