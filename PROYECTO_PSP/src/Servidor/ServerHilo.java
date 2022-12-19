@@ -76,7 +76,7 @@ public class ServerHilo extends Thread {
                     byte[] DNI = (byte[]) inObjeto.readObject();
                     ArrayList<Transaccion> transaccions = Conexiones.recuperarTransacciones(Encryption.desEncriptarDNI(DNI));
                     outObjeto.writeObject(transaccions.size());
-                    Encryption.encriparVerTransferencias(transaccions,outObjeto);
+                    Encryption.encriparVerTransferencias(transaccions, outObjeto);
                     break;
                 }
                 case "HACER_TRANSFERENCIA": {
@@ -85,7 +85,17 @@ public class ServerHilo extends Thread {
                     byte[] IBAN_ORIGEN = (byte[]) inObjeto.readObject();
                     byte[] IBAN_DESTINO = (byte[]) inObjeto.readObject();
                     byte[] precio = (byte[]) inObjeto.readObject();
-                    Encryption.desEncriparHacerTransferencia(DNI, IBAN_ORIGEN, IBAN_DESTINO, precio);
+                    double fiveDigits = 10000 + Math.random() * 90000;
+                    int codigo = (int) fiveDigits;
+                    Encryption.encriptarCodigo(String.valueOf(codigo), outObjeto);
+                    byte[] cEncriptado = (byte[]) inObjeto.readObject();
+                    int codigoRecibido = Encryption.desEncriptarCodigo(cEncriptado);
+                    if (codigo == codigoRecibido) {
+                        outObjeto.writeObject(true);
+                        Encryption.desEncriparHacerTransferencia(DNI, IBAN_ORIGEN, IBAN_DESTINO, precio);
+                    } else {
+                        outObjeto.writeObject(false);
+                    }
                     break;
                 }
             }

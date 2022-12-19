@@ -46,9 +46,9 @@ public class MenuTransferencia {
                 Encryption.encriparDNI(outObjeto);
                 JOptionPane.showMessageDialog(null, "Cuenta creada");
             } catch (IOException ex) {
-                throw new RuntimeException(ex);
+                JOptionPane.showMessageDialog(null, "Error desconocido", "Error", JOptionPane.ERROR_MESSAGE);
             } catch (ClassNotFoundException ex) {
-                throw new RuntimeException(ex);
+                JOptionPane.showMessageDialog(null, "Error de conexion", "Error", JOptionPane.ERROR_MESSAGE);
             }
 
         });
@@ -56,7 +56,13 @@ public class MenuTransferencia {
 
     public void setTablaTransferencias() {
         try {
-            DefaultTableModel model = new DefaultTableModel();
+            DefaultTableModel model = new DefaultTableModel() {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    //all cells false
+                    return false;
+                }
+            };
             model.addColumn("IBAN Origen");
             model.addColumn("IBAN destino");
             model.addColumn("dinero");

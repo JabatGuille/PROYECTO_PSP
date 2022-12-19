@@ -48,7 +48,13 @@ public class VistaSaldo {
     public void setTablaCuentas() {
         try {
             cuentaHashMap = new HashMap<>();
-            DefaultTableModel model = new DefaultTableModel();
+            DefaultTableModel model = new DefaultTableModel() {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    //all cells false
+                    return false;
+                }
+            };
             model.addColumn("Nº Cuenta");
             model.addColumn("Saldo");
             Socket cliente = new Socket("localhost", 5555);
@@ -59,7 +65,7 @@ public class VistaSaldo {
             singleton.secretKey = (SecretKey) inObjeto.readObject();
             Encryption.encriparDNI(outObjeto);
             int totalCuentas = (int) inObjeto.readObject();
-            ArrayList<Cuenta> cuentas = Encryption.desEncriparListaCuentas(totalCuentas,inObjeto);
+            ArrayList<Cuenta> cuentas = Encryption.desEncriparListaCuentas(totalCuentas, inObjeto);
             double total = 0;
             for (int i = 0; i < cuentas.size(); i++) {
                 model.addRow(new Object[]{cuentas.get(i).getIBAN(), cuentas.get(i).getDinero()});
@@ -81,7 +87,6 @@ public class VistaSaldo {
         SpinnerModel modeltau = new SpinnerNumberModel(0.00, 0.00, 10000.00, 1.00);
         spinnerCantidad.setModel(modeltau);
         ((JSpinner.NumberEditor) spinnerCantidad.getEditor()).getFormat().setMaximumFractionDigits(8);
-
         salirButton.addActionListener(e -> {
             frame = saldoFrame;
             JFrame MenuFrame = new JFrame("MENU");
@@ -103,6 +108,15 @@ public class VistaSaldo {
                     singleton.secretKey = (SecretKey) inObjeto.readObject();
                     Encryption.encriparHacerTransferencia(new Transaccion(singleton.DNI, Integer.parseInt(OrigenText.getText()), Integer.parseInt(DestinoText.getText()), Double.parseDouble(spinnerCantidad.getValue().toString())), outObjeto);
                     JOptionPane.showMessageDialog(null, "Intentando hacer transferencia");
+                    byte[] eCodigo = (byte[]) inObjeto.readObject();
+                    int codigo = Encryption.desEncriptarCodigo(eCodigo);
+                    Encryption.encriptarCodigo(String.valueOf(codigo), outObjeto);
+                    boolean comprobacion = (boolean) inObjeto.readObject();
+                    if (comprobacion) {
+                        JOptionPane.showMessageDialog(null, "Transferencia realizada");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Error en la transferencia", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
                     setTablaCuentas();
 
                 } catch (IOException ex) {
@@ -118,9 +132,4 @@ public class VistaSaldo {
         spinnerCantidad.addComponentListener(new ComponentAdapter() {
         });
     }
-
-    private void createUIComponents() {
-        // TODO: place custom component creation code here
-    }
-
 }

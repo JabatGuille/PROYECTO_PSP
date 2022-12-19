@@ -6,15 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="161fe431-279c-448e-af8c-557403ad8e5f" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Clases/Cliente.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Clases/Cliente.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Clases/Encryption.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Clases/Encryption.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Clases/Singleton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Clases/Singleton.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Cliente/MainCliente.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Cliente/MainCliente.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Cliente/MenuTransferencia.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Cliente/MenuTransferencia.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Cliente/Register.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Cliente/Register.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Cliente/VistaSaldo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Cliente/VistaSaldo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Servidor/ServerHilo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Servidor/ServerHilo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sql.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../sql.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,14 +41,14 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.SHOW": "false",
+    "UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.SHOW": "true",
     "last_opened_file_path": "C:/Users/Guillermo/Documents/PROYECTO_PSP/JAR/mysql-connector-java-8.0.30.jar",
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.2"
   }
 }]]></component>
-  <component name="RunManager" selected="Application.Servidor">
+  <component name="RunManager" selected="Application.MainCliente">
     <configuration name="Encryption" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Clases.Encryption" />
       <module name="PROYECTO_PSP" />
@@ -94,8 +89,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.MainCliente" />
         <item itemvalue="Application.Servidor" />
+        <item itemvalue="Application.MainCliente" />
         <item itemvalue="Application.Encryption" />
       </list>
     </recent_temporary>

@@ -403,4 +403,48 @@ public class Encryption {
             throw new RuntimeException(e);
         }
     }
+
+    public static void encriptarCodigo(String codigo, ObjectOutputStream outObjeto) {
+        try {
+            System.out.println("El codigo es " + codigo);
+            Singleton singleton = Singleton.getInstance();
+            Cipher desCipher = Cipher.getInstance("AES");
+            desCipher.init(Cipher.ENCRYPT_MODE, singleton.secretKey);
+            outObjeto.writeObject(desCipher.doFinal(codigo.getBytes()));
+
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        } catch (NoSuchPaddingException e) {
+            throw new RuntimeException(e);
+        } catch (InvalidKeyException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalBlockSizeException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (BadPaddingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static int desEncriptarCodigo(byte[] codigo) {
+        try {
+            Singleton singleton = Singleton.getInstance();
+            Cipher desCipher = Cipher.getInstance("AES");
+            desCipher.init(Cipher.DECRYPT_MODE, singleton.secretKey);
+            return Integer.parseInt(new String(desCipher.doFinal(codigo)));
+
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        } catch (NoSuchPaddingException e) {
+            throw new RuntimeException(e);
+        } catch (InvalidKeyException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalBlockSizeException e) {
+            throw new RuntimeException(e);
+        } catch (BadPaddingException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
 }
