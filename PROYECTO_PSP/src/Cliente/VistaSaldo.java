@@ -104,7 +104,7 @@ public class VistaSaldo {
         });
         hacerTransferenciaButton.addActionListener(e -> {
             if (cuentaHashMap.containsKey(Integer.parseInt(OrigenText.getText()))) {
-                if (OrigenText.getText().equals("") && !DestinoText.getText().equals("") && !spinnerCantidad.getValue().equals(0)) {
+                if (!OrigenText.getText().equals("") && !DestinoText.getText().equals("") && !spinnerCantidad.getValue().equals(0)) {
                     try {
                         Singleton singleton = Singleton.getInstance();
                         Socket cliente = new Socket("localhost", 5555);
@@ -118,9 +118,7 @@ public class VistaSaldo {
                         int codigo = Encryption.desEncriptarCodigo(eCodigo);
                         Encryption.encriptarCodigo(String.valueOf(codigo), outObjeto);
                         boolean comprobacion = (boolean) inObjeto.readObject();
-                        if (comprobacion) {
-                            JOptionPane.showMessageDialog(null, "Transferencia realizada");
-                        } else {
+                        if (!comprobacion) {
                             JOptionPane.showMessageDialog(null, "Error en la transferencia", "Error", JOptionPane.ERROR_MESSAGE);
                         }
                         setTablaCuentas();
