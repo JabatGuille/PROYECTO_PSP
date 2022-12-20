@@ -547,18 +547,17 @@ public class Encryption {
             Cipher desCipher = Cipher.getInstance("AES");
             desCipher.init(Cipher.DECRYPT_MODE, singleton.secretKey);
             return Integer.parseInt(new String(desCipher.doFinal(codigo)));
-
         } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
+            System.out.println("Error de algoritmo");
         } catch (NoSuchPaddingException e) {
-            throw new RuntimeException(e);
+            System.out.println("Error con el Padding");
         } catch (InvalidKeyException e) {
-            throw new RuntimeException(e);
+            System.out.println("Clave invalida");
         } catch (IllegalBlockSizeException e) {
-            throw new RuntimeException(e);
+            System.out.println("Tamaño ilegal");
         } catch (BadPaddingException e) {
-            throw new RuntimeException(e);
+            System.out.println("Error Padding");
         }
-
+        return 0;
     }
 }

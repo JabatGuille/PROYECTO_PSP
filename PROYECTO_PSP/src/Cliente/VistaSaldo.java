@@ -8,7 +8,6 @@ import Clases.Transaccion;
 import javax.crypto.SecretKey;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.event.ComponentAdapter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -76,11 +75,10 @@ public class VistaSaldo {
             }
             setTextoTotal(total);
             tablaCuentas.setModel(model);
-        } catch (
-                IOException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, "Error desconocido", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(null, "Error Con el servidor", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -105,35 +103,39 @@ public class VistaSaldo {
             MenuFrame.setVisible(true);
         });
         hacerTransferenciaButton.addActionListener(e -> {
-            if (cuentaHashMap.containsKey(Integer.parseInt(OrigenText.getText())) && !DestinoText.getText().equals("") && !spinnerCantidad.getValue().equals(0)) {
-                try {
-                    Singleton singleton = Singleton.getInstance();
-                    Socket cliente = new Socket("localhost", 5555);
-                    ObjectOutputStream outObjeto = new ObjectOutputStream(cliente.getOutputStream());
-                    ObjectInputStream inObjeto = new ObjectInputStream(cliente.getInputStream());
-                    outObjeto.writeObject("HACER_TRANSFERENCIA");
-                    singleton.secretKey = (SecretKey) inObjeto.readObject();
-                    Encryption.encriparHacerTransferencia(new Transaccion(singleton.DNI, Integer.parseInt(OrigenText.getText()), Integer.parseInt(DestinoText.getText()), Double.parseDouble(spinnerCantidad.getValue().toString())), outObjeto);
-                    JOptionPane.showMessageDialog(null, "Intentando hacer transferencia");
-                    byte[] eCodigo = (byte[]) inObjeto.readObject();
-                    int codigo = Encryption.desEncriptarCodigo(eCodigo);
-                    Encryption.encriptarCodigo(String.valueOf(codigo), outObjeto);
-                    boolean comprobacion = (boolean) inObjeto.readObject();
-                    if (comprobacion) {
-                        JOptionPane.showMessageDialog(null, "Transferencia realizada");
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Error en la transferencia", "Error", JOptionPane.ERROR_MESSAGE);
-                    }
-                    setTablaCuentas();
+            if (cuentaHashMap.containsKey(Integer.parseInt(OrigenText.getText()))) {
+                if (OrigenText.getText().equals("") && !DestinoText.getText().equals("") && !spinnerCantidad.getValue().equals(0)) {
+                    try {
+                        Singleton singleton = Singleton.getInstance();
+                        Socket cliente = new Socket("localhost", 5555);
+                        ObjectOutputStream outObjeto = new ObjectOutputStream(cliente.getOutputStream());
+                        ObjectInputStream inObjeto = new ObjectInputStream(cliente.getInputStream());
+                        outObjeto.writeObject("HACER_TRANSFERENCIA");
+                        singleton.secretKey = (SecretKey) inObjeto.readObject();
+                        Encryption.encriparHacerTransferencia(new Transaccion(singleton.DNI, Integer.parseInt(OrigenText.getText()), Integer.parseInt(DestinoText.getText()), Double.parseDouble(spinnerCantidad.getValue().toString())), outObjeto);
+                        JOptionPane.showMessageDialog(null, "Intentando hacer transferencia");
+                        byte[] eCodigo = (byte[]) inObjeto.readObject();
+                        int codigo = Encryption.desEncriptarCodigo(eCodigo);
+                        Encryption.encriptarCodigo(String.valueOf(codigo), outObjeto);
+                        boolean comprobacion = (boolean) inObjeto.readObject();
+                        if (comprobacion) {
+                            JOptionPane.showMessageDialog(null, "Transferencia realizada");
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Error en la transferencia", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                        setTablaCuentas();
 
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                } catch (ClassNotFoundException ex) {
-                    throw new RuntimeException(ex);
+                    } catch (IOException ex) {
+                        JOptionPane.showMessageDialog(null, "Error desconocido", "Error", JOptionPane.ERROR_MESSAGE);
+                    } catch (ClassNotFoundException ex) {
+                        JOptionPane.showMessageDialog(null, "Error Con el servidor", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Faltan datos", "Error Transferencia", JOptionPane.WARNING_MESSAGE);
+
                 }
             } else {
-                JOptionPane.showMessageDialog(null, "Faltan datos", "Error Transferencia", JOptionPane.WARNING_MESSAGE);
-
+                JOptionPane.showMessageDialog(null, "Debe usar como cuenta origen una de su propiedad", "Error Transferencia", JOptionPane.ERROR_MESSAGE);
             }
         });
     }

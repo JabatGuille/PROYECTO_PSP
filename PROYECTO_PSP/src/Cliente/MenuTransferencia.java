@@ -87,9 +87,9 @@ public class MenuTransferencia {
             }
             tablaTransferencias.setModel(model);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            JOptionPane.showMessageDialog(null, "Error desconocido", "Error", JOptionPane.ERROR_MESSAGE);
         } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
+            JOptionPane.showMessageDialog(null, "Error con la BBDD", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 }

@@ -118,7 +118,7 @@ public class Conexiones {
             }
             conexion.close();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            System.out.println("Error con la BBDD");
         }
         return transaccions;
     }
@@ -183,7 +183,7 @@ public class Conexiones {
             }
             conexion.close();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            System.out.println("Error con la BBDD");
         }
     }
 
@@ -202,7 +202,7 @@ public class Conexiones {
             statement.executeUpdate();
             conexion.close();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            System.out.println("Error BBDD");
         }
 
     }
