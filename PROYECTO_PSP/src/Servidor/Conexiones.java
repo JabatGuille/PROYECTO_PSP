@@ -66,7 +66,7 @@ public class Conexiones {
             statement.executeUpdate();
             conexion.close();
         } catch (SQLException r) {
-            r.printStackTrace();
+            System.out.println("DNI duplicado");
         }
         return false;
     }
