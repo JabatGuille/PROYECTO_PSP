@@ -14,14 +14,17 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 public class MenuTransferencia {
-    private JButton buscarButton;
-    private JTextField textField1;
     private JButton salirButton;
     private JTable tablaTransferencias;
     public JPanel panel_main;
     private JButton crearCuentaButton;
     JFrame frame = null;
 
+    /**
+     * Constructor de la vista para poder ver los datos y que funcionen los botones
+     *
+     * @param menuFrame
+     */
     public MenuTransferencia(JFrame menuFrame) {
         setTablaTransferencias();
 
@@ -54,6 +57,9 @@ public class MenuTransferencia {
         });
     }
 
+    /**
+     * Rellena los datos de la tabla
+     */
     public void setTablaTransferencias() {
         try {
             DefaultTableModel model = new DefaultTableModel() {

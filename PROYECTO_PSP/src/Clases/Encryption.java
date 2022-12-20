@@ -12,7 +12,13 @@ import java.util.ArrayList;
 import java.util.Base64;
 
 public class Encryption {
-
+    /**
+     * Encripta la contraseña
+     *
+     * @param sinCifrar
+     * @return
+     * @throws Exception
+     */
     public static String cifra(String sinCifrar) throws Exception {
         final byte[] bytes = sinCifrar.getBytes("UTF-8");
         final Cipher aes = obtieneCipher(true);
@@ -21,6 +27,13 @@ public class Encryption {
         return Base64.getEncoder().encodeToString(cifrado);
     }
 
+    /**
+     * Prepara el cipher para encriptar la contraseña
+     *
+     * @param paraCifrar
+     * @return
+     * @throws Exception
+     */
     private static Cipher obtieneCipher(boolean paraCifrar) throws Exception {
         final String frase = "FraseLargaConDiferentesLetrasNumerosYCaracteresEspeciales_áÁéÉíÍóÓúÚüÜñÑ1234567890!#%$&()=%_NO_USAR_ESTA_FRASE!_";
         final MessageDigest digest = MessageDigest.getInstance("SHA");
@@ -36,6 +49,11 @@ public class Encryption {
         return aes;
     }
 
+    /**
+     * Encripta los datos de registro de un cliente
+     *
+     * @return
+     */
     public static byte[] encriptarRegistroCliente() {
         try {
             Singleton singleton = Singleton.getInstance();
@@ -61,6 +79,12 @@ public class Encryption {
         return null;
     }
 
+    /**
+     * Verifica la firma del registro del cliente
+     *
+     * @param firma
+     * @return
+     */
     public static boolean verificarRegistroCliente(byte[] firma) {
         try {
             Singleton singleton = Singleton.getInstance();
@@ -78,6 +102,9 @@ public class Encryption {
 
     }
 
+    /**
+     * Genera una secretKey
+     */
     public static void secretKey() {
         try {
             System.out.println("Obteniendo generador de claves con cifrado AES");
@@ -94,6 +121,12 @@ public class Encryption {
 
     }
 
+    /**
+     * Encripta los datos de un cliente
+     *
+     * @param cliente
+     * @param outObjeto
+     */
     public static void encriptarCliente(Cliente cliente, ObjectOutputStream outObjeto) {
         Singleton singleton = Singleton.getInstance();
         try {
@@ -123,6 +156,16 @@ public class Encryption {
         }
     }
 
+    /**
+     * Desencripta los datos de un cliente
+     *
+     * @param DNI
+     * @param nombre
+     * @param apellido
+     * @param edad
+     * @param email
+     * @param contraseña
+     */
     public static void desEncriptarCliente(byte[] DNI, byte[] nombre, byte[] apellido, byte[] edad, byte[] email, byte[] contraseña) {
         try {
             Singleton singleton = Singleton.getInstance();
@@ -149,6 +192,13 @@ public class Encryption {
         }
     }
 
+    /**
+     * Encripta los datos necesarios para el login
+     *
+     * @param DNI
+     * @param contraseña
+     * @param outObjeto
+     */
     public static void encriptarLogin(String DNI, String contraseña, ObjectOutputStream outObjeto) {
         Singleton singleton = Singleton.getInstance();
         try {
@@ -173,6 +223,13 @@ public class Encryption {
         }
     }
 
+    /**
+     * Desencripta los datos necesarios para el login
+     *
+     * @param DNI
+     * @param contraseña
+     * @param outObjeto
+     */
     public static void desEncriparLogin(byte[] DNI, byte[] contraseña, ObjectOutputStream outObjeto) {
         try {
             Singleton singleton = Singleton.getInstance();
@@ -198,6 +255,12 @@ public class Encryption {
 
     }
 
+    /**
+     * Encripta los datos necesarios para realizar una trasferencia
+     *
+     * @param transaccion
+     * @param outObjeto
+     */
     public static void encriparHacerTransferencia(Transaccion transaccion, ObjectOutputStream outObjeto) {
         Singleton singleton = Singleton.getInstance();
         try {
@@ -224,6 +287,14 @@ public class Encryption {
         }
     }
 
+    /**
+     * Desencripta los datos necesarios para hacer una transferencia
+     *
+     * @param DNI
+     * @param IBAN_ORIGEN
+     * @param IBAN_DESTINO
+     * @param precio
+     */
     public static void desEncriparHacerTransferencia(byte[] DNI, byte[] IBAN_ORIGEN, byte[] IBAN_DESTINO, byte[] precio) {
         try {
             Singleton singleton = Singleton.getInstance();
@@ -248,6 +319,12 @@ public class Encryption {
         }
     }
 
+    /**
+     * Encripta la lista de cuentas de un cliente
+     *
+     * @param cuentas
+     * @param outObjeto
+     */
     public static void encriparListaCuentas(ArrayList<Cuenta> cuentas, ObjectOutputStream outObjeto) {
         Singleton singleton = Singleton.getInstance();
         try {
@@ -275,6 +352,13 @@ public class Encryption {
         }
     }
 
+    /**
+     * Desencripta la lista de cuentas de un cliente
+     *
+     * @param totalCuentas
+     * @param inObjeto
+     * @return
+     */
     public static ArrayList<Cuenta> desEncriparListaCuentas(int totalCuentas, ObjectInputStream inObjeto) {
         try {
             ArrayList<Cuenta> cuentas = new ArrayList<>();
@@ -304,6 +388,11 @@ public class Encryption {
         }
     }
 
+    /**
+     * Encripta un DNI
+     *
+     * @param outObjeto
+     */
     public static void encriparDNI(ObjectOutputStream outObjeto) {
         Singleton singleton = Singleton.getInstance();
         try {
@@ -327,6 +416,12 @@ public class Encryption {
         }
     }
 
+    /**
+     * Desencripta un DNI
+     *
+     * @param DNI
+     * @return
+     */
     public static String desEncriptarDNI(byte[] DNI) {
         try {
             Singleton singleton = Singleton.getInstance();
@@ -374,6 +469,13 @@ public class Encryption {
         }
     }
 
+    /**
+     * Desencripta los datos de las trasferencias que se quieren ver
+     *
+     * @param totalTransaccion
+     * @param inObjeto
+     * @return
+     */
     public static ArrayList<Transaccion> desEncriparVerTransferencia(int totalTransaccion, ObjectInputStream inObjeto) {
         try {
             ArrayList<Transaccion> transaccions = new ArrayList<>();
@@ -404,6 +506,12 @@ public class Encryption {
         }
     }
 
+    /**
+     * Encripta el codigo de confirmacion de hacer una transferencia
+     *
+     * @param codigo
+     * @param outObjeto
+     */
     public static void encriptarCodigo(String codigo, ObjectOutputStream outObjeto) {
         try {
             System.out.println("El codigo es " + codigo);
@@ -427,6 +535,12 @@ public class Encryption {
         }
     }
 
+    /**
+     * Desencripta el codigo de confirmacion de una transferencia
+     *
+     * @param codigo
+     * @return
+     */
     public static int desEncriptarCodigo(byte[] codigo) {
         try {
             Singleton singleton = Singleton.getInstance();

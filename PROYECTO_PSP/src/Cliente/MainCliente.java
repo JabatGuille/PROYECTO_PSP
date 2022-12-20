@@ -23,6 +23,10 @@ public class MainCliente {
 
     private static JFrame frame = null;
 
+    /**
+     * Constructor de la vista para que se pueda ver los datos y que funcionen los botones
+     * @param loginFrame
+     */
     public MainCliente(JFrame loginFrame) {
         registerButton.addActionListener(e -> {
             frame = loginFrame;

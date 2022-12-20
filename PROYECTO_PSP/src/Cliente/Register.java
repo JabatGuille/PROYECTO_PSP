@@ -30,6 +30,11 @@ public class Register {
     private JCheckBox politicasCheckBox;
     private JButton politicasDePrivacidadButton;
 
+    /**
+     * Constructor de la vista para el funcionamiento de los botones y tratamiento de datos
+     *
+     * @param registroFrame
+     */
     public Register(JFrame registroFrame) {
         SpinnerModel modeltau = new SpinnerNumberModel(0, 0, 100, 1);
         EdadSpinner.setModel(modeltau);
@@ -58,6 +63,13 @@ public class Register {
                 JOptionPane.showMessageDialog(null, "Email no valido", "Error Email", JOptionPane.WARNING_MESSAGE);
                 EmailTexto.setText("");
             }
+            pattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,20}$");
+            matcher = pattern.matcher(ContraTexto.getText());
+            if (!matcher.matches()) {
+                JOptionPane.showMessageDialog(null, "Contraseña no valida el formato es de entre 8 y 20 caracteres, obligatorio usar numeros, minusculas, mayusculas y simbolos", "Error Contraseña", JOptionPane.WARNING_MESSAGE);
+                ContraTexto.setText("");
+            }
+
             if (!DNITexto.getText().equals("") &&
                     !NombreTexto.getText().equals("") &&
                     !ApellidoTexto.getText().equals("") &&
@@ -65,7 +77,6 @@ public class Register {
                     !EmailTexto.getText().equals("") &&
                     !ContraTexto.getText().equals("")) {
                 if (politicasCheckBox.isSelected()) {
-
                     try {
                         Cliente cliente = new Cliente(DNITexto.getText(), NombreTexto.getText(), ApellidoTexto.getText(), Integer.parseInt(EdadSpinner.getValue().toString()), EmailTexto.getText(), Encryption.cifra(ContraTexto.getText()));
                         Socket clienteSocket = new Socket("localhost", 5555);
@@ -79,7 +90,7 @@ public class Register {
                         if (comprobacion) {
                             outObjeto.writeObject(true);
                             singleton.secretKey = (SecretKey) inObjeto.readObject();
-                            Encryption.encriptarCliente(cliente,outObjeto);
+                            Encryption.encriptarCliente(cliente, outObjeto);
                             clienteSocket.close();
                             JOptionPane.showMessageDialog(null, "Usted a firmado las politicas de privacidad");
                             JFrame loginFrame = new JFrame("LOGIN");

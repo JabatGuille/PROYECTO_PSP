@@ -18,6 +18,9 @@ public class ServerHilo extends Thread {
         this.cliente = cliente;
     }
 
+    /**
+     * Se encarga de toda la logica de recibir y enviar datos entre cliente y servidor
+     */
     @Override
     public void run() {
         super.run();

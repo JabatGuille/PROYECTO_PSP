@@ -44,7 +44,9 @@ public class VistaSaldo {
         this.salirButton = salirButton;
     }
 
-
+    /**
+     * Rellena la tabla de las cuentas
+     */
     public void setTablaCuentas() {
         try {
             cuentaHashMap = new HashMap<>();
@@ -82,6 +84,11 @@ public class VistaSaldo {
         }
     }
 
+    /**
+     * Constructor de la vista
+     *
+     * @param saldoFrame
+     */
     public VistaSaldo(JFrame saldoFrame) {
         setTablaCuentas();
         SpinnerModel modeltau = new SpinnerNumberModel(0.00, 0.00, 10000.00, 1.00);
@@ -128,8 +135,6 @@ public class VistaSaldo {
                 JOptionPane.showMessageDialog(null, "Faltan datos", "Error Transferencia", JOptionPane.WARNING_MESSAGE);
 
             }
-        });
-        spinnerCantidad.addComponentListener(new ComponentAdapter() {
         });
     }
 }

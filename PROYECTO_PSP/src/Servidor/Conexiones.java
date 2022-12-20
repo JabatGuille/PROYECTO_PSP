@@ -12,6 +12,13 @@ public class Conexiones {
     static String usuario = "root";
     static String contraseña = "12345";
 
+    /**
+     * permite el login de un usuario usando su DNI y contraseña
+     *
+     * @param DNI
+     * @param contraseñaCliente
+     * @return
+     */
     public static boolean login(String DNI, String contraseñaCliente) {
         try {
             Connection conexion = DriverManager.getConnection(conexion_string, usuario, contraseña);
@@ -33,6 +40,12 @@ public class Conexiones {
         return false;
     }
 
+    /**
+     * Registra un cliente
+     *
+     * @param cliente
+     * @return
+     */
     public static boolean registro(Cliente cliente) {
         try {
             Connection conexion = DriverManager.getConnection(conexion_string, usuario, contraseña);
@@ -58,6 +71,12 @@ public class Conexiones {
         return false;
     }
 
+    /**
+     * Recupera las cuentas de un Cliente
+     *
+     * @param DNI
+     * @return
+     */
     public static ArrayList<Cuenta> recuperarCuentas(String DNI) {
         ArrayList<Cuenta> cuentas = new ArrayList<>();
         try {
@@ -79,6 +98,12 @@ public class Conexiones {
         return cuentas;
     }
 
+    /**
+     * Recupera las transacciones de un cliente
+     *
+     * @param DNI
+     * @return
+     */
     public static ArrayList<Transaccion> recuperarTransacciones(String DNI) {
         ArrayList<Transaccion> transaccions = new ArrayList<>();
         try {
@@ -98,6 +123,11 @@ public class Conexiones {
         return transaccions;
     }
 
+    /**
+     * Hace la transferencia de un cliente
+     *
+     * @param transaccion
+     */
     public static void hacerTransferencia(Transaccion transaccion) {
         try {
             Connection conexion = DriverManager.getConnection(conexion_string, usuario, contraseña);
@@ -157,6 +187,11 @@ public class Conexiones {
         }
     }
 
+    /**
+     * Crea una cuenta bancaria de un cliente
+     *
+     * @param DNI
+     */
     public static void crearCuenta(String DNI) {
         try {
             Connection conexion = DriverManager.getConnection(conexion_string, usuario, contraseña);

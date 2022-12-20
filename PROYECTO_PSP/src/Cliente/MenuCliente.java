@@ -1,15 +1,19 @@
 package Cliente;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class MenuCliente {
     private JButton verSaldoButton;
     public JPanel panel_main;
     private JButton verTransferenciasButton;
     private JButton salirButton;
-JFrame frame = null;
+    JFrame frame = null;
+
+    /**
+     * Constructor de la vista para poder mostrar los datos y movimiento de los botones
+     *
+     * @param menuFrame
+     */
     public MenuCliente(JFrame menuFrame) {
         salirButton.addActionListener(e -> {
             frame = menuFrame;
