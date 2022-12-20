@@ -116,10 +116,11 @@ public class VistaSaldo {
                         JOptionPane.showMessageDialog(null, "Intentando hacer transferencia");
                         byte[] eCodigo = (byte[]) inObjeto.readObject();
                         int codigo = Encryption.desEncriptarCodigo(eCodigo);
+                        JOptionPane.showMessageDialog(null, "El codigo para realizar la transferencia es " + codigo);
                         Encryption.encriptarCodigo(String.valueOf(codigo), outObjeto);
                         boolean comprobacion = (boolean) inObjeto.readObject();
                         if (!comprobacion) {
-                            JOptionPane.showMessageDialog(null, "Error en la transferencia", "Error", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "Error con el codigo", "Error", JOptionPane.ERROR_MESSAGE);
                         }
                         setTablaCuentas();
                     } catch (IOException ex) {
