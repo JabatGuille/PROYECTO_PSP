@@ -122,7 +122,6 @@ public class VistaSaldo {
                             JOptionPane.showMessageDialog(null, "Error en la transferencia", "Error", JOptionPane.ERROR_MESSAGE);
                         }
                         setTablaCuentas();
-
                     } catch (IOException ex) {
                         JOptionPane.showMessageDialog(null, "Error desconocido", "Error", JOptionPane.ERROR_MESSAGE);
                     } catch (ClassNotFoundException ex) {
@@ -135,6 +134,7 @@ public class VistaSaldo {
             } else {
                 JOptionPane.showMessageDialog(null, "Debe usar como cuenta origen una de su propiedad", "Error Transferencia", JOptionPane.ERROR_MESSAGE);
             }
+            setTablaCuentas();
         });
     }
 }
